@@ -1,7 +1,9 @@
 package Scraper;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -60,12 +62,13 @@ public class ScrapeDictionaryCom implements Scrape {
 	}
 
 	@Override
-	public void scrapePage() {
+	public HashMap<String,String> scrapePage() {
+		return new HashMap<String, String>();
 		//basically what is in the main right now
 	}
 
 	@Override
-	public void Txtfile() {//print out to text file calling another class to do so
+	public void loadDatabase(HashMap<String,String> hash) {//print out to text file calling another class to do so
 		
 	}
 
