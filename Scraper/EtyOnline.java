@@ -14,7 +14,7 @@ public class EtyOnline implements Scrape {
 		//do doc and body and url initialization here
 	}
 	@Override
-	public HashMap scrapePage() {
+	public HashMap createPageMap() {//create from database
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -26,17 +26,14 @@ public class EtyOnline implements Scrape {
 	}
 
 	public static void main(String[] args) throws IOException {
-		StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=60&allowed_in_frame=0");
+		//StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=60&allowed_in_frame=0");
+		StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=0&allowed_in_frame=0");
 		Document doc = Jsoup.connect(url.toString()).get();
 		Element body = doc.getElementById("dictionary");
-		
-		int incre = 1;
-		while(check(url.toString(),doc,body)==true){
-			url = url.replace(42,43,String.valueOf(incre));
-			 doc = Jsoup.connect(url.toString()).get();
-			 body = doc.getElementById("dictionary");
-			incre++;
+		for(int i = 97;i<=122;i++){
+			byLetter((char)i);
 		}
+		
 		/*
 		ArrayList<String> range = getWordRange(url.toString(),new ArrayList<String>(),doc,body);
 		int counter = 0;
@@ -47,6 +44,37 @@ public class EtyOnline implements Scrape {
 		*/
 		
 	}
+	private static void byLetter(char letter) throws IOException{
+		Document doc;
+		Element body;
+		int incre = 0;
+
+		String first = "http://www.etymonline.com/index.php?l=" + letter+"&p=";
+		String second = "&allowed_in_frame=0";
+		String url = first + incre + second;
+		
+		 doc = Jsoup.connect(url.toString()).get();
+		 body = doc.getElementById("dictionary");
+		
+		System.out.println(url);
+		while(check(url.toString(),doc,body)==true){
+			url = first + incre + second;
+			
+			//linked list and global hashmap? so that load database is in main. Check running loops times
+			ArrayList<String> listStr = getWordRange(url,new ArrayList<String>() ,doc,body);//get words and meanings in the particular letter
+			
+			
+			 System.out.println(url);
+			 doc = Jsoup.connect(url.toString()).get();
+			 body = doc.getElementById("dictionary");
+			 
+			incre++;
+		}
+		
+	}
+	private static void loadDatabase(){
+		
+	}
 	private static boolean check(String url,Document doc,Element body){
 		if(body.text().equals("No matching terms found.")){
 			return false;
@@ -55,6 +83,9 @@ public class EtyOnline implements Scrape {
 	}
 	
 	private static ArrayList<String> getWordRange(String url,ArrayList<String> array,Document doc,Element body) throws IOException{
+		//StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=0&allowed_in_frame=0");
+
+		
 		//String url = "http://dictionary.reference.com/etymology/list/a";
 		System.out.println("Fetching url...");
 		//Document doc = Jsoup.connect(url).get();
