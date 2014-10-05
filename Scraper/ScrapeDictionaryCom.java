@@ -2,6 +2,7 @@ package Scraper;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,6 +39,12 @@ public class ScrapeDictionaryCom implements Scrape {
 		for(String i : words){
 				origin.add(i);//http://dictionary.reference.com/etymology/a
 		}
+		
+		for(String i : origin){
+			System.out.println(i);
+		}
+
+
 	}
 	
 	private static ArrayList<String> getWordRange(String url,ArrayList<String> array) throws IOException{
@@ -58,6 +65,7 @@ public class ScrapeDictionaryCom implements Scrape {
 	private static void getOrigin(String url) throws IOException{
 		System.out.println("Fetching Origin");
 		Document doc = Jsoup.connect(url).get();
+		
 		
 	}
 
