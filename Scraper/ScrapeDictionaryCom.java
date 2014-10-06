@@ -1,8 +1,6 @@
 package Scraper;
 
 import java.io.IOException;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -70,14 +68,17 @@ public class ScrapeDictionaryCom implements Scrape {
 	}
 
 	@Override
-	public HashMap<String,String> scrapePage() {
-		return new HashMap<String, String>();
-		//basically what is in the main right now
+	public HashMap createPageMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void loadDatabase(HashMap<String,String> hash) {//print out to text file calling another class to do so
+	public void loadDatabase(Linked<String> list) {
+		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

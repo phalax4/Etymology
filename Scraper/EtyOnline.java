@@ -20,7 +20,7 @@ public class EtyOnline implements Scrape {
 	}
 
 	@Override
-	public void loadDatabase(HashMap<String, String> hash) {
+	public void loadDatabase(Linked<String> list) {
 		// TODO Auto-generated method stub
 
 	}
@@ -61,7 +61,7 @@ public class EtyOnline implements Scrape {
 			url = first + incre + second;
 			
 			//linked list and global hashmap? so that load database is in main. Check running loops times
-			ArrayList<String> listStr = getWordRange(url,new ArrayList<String>() ,doc,body);//get words and meanings in the particular letter
+			Linked<String> listStr = getWordRange(url,new Linked<String>() ,doc,body);//get words and meanings in the particular letter
 			
 			
 			 System.out.println(url);
@@ -82,7 +82,7 @@ public class EtyOnline implements Scrape {
 		return true;
 	}
 	
-	private static ArrayList<String> getWordRange(String url,ArrayList<String> array,Document doc,Element body) throws IOException{
+	private static Linked<String> getWordRange(String url,Linked<String> array,Document doc,Element body) throws IOException{
 		//StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=0&allowed_in_frame=0");
 
 		
@@ -97,7 +97,7 @@ public class EtyOnline implements Scrape {
 		//Elements content = list.select("a[href]");
 		for(Element links:highlights){
 			//System.out.println(links.attr("abs:href"));
-			array.add(links.text());//links.attr("abs:href"));
+			array.push(links.text());//links.attr("abs:href"));
 			counter++;
 		}
 		return array;

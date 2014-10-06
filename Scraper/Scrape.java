@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 
 public interface Scrape {
-	public HashMap scrapePage();
-	public void loadDatabase(HashMap<String,String> hash);//call another class to do the printing to txt file
+	public HashMap createPageMap();
+	public void loadDatabase(Linked<String> list);//call another class to do the printing to txt file
 	
 
 }
