@@ -9,9 +9,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 public class EtyOnline implements Scrape {
-	
+	private static String dbName = "Ety";
 	public EtyOnline(){
-		//do doc and body and url initialization here
+		//do doc and body and url initialization here, do database and table creation here
+		Database.createDB(dbName);
+		
 	}
 	@Override
 	public HashMap createPageMap() {//create from database
@@ -19,9 +21,11 @@ public class EtyOnline implements Scrape {
 		return null;
 	}
 
-	@Override
-	public void loadDatabase(Linked<String> list) {
-		// TODO Auto-generated method stub
+	public static void loadDatabase(Linked<String> list,String tableName) {
+		while(list.getSize()!=0){
+			
+		}
+		//String sql = "INSERT INTO tableName (WORD,ORIGIN)"+"VALUES(word,origin);";
 
 	}
 
@@ -31,6 +35,7 @@ public class EtyOnline implements Scrape {
 		Document doc = Jsoup.connect(url.toString()).get();
 		Element body = doc.getElementById("dictionary");
 		for(int i = 97;i<=122;i++){
+			TableDB.createTable("CREATE TABLE " + String.valueOf((char)i).toUpperCase() +"(WORD TEXT PRIMARY KEY NOT NULL,"+"ORIGIN TEXT NOT NULL)",dbName);
 			byLetter((char)i);
 		}
 		
@@ -62,19 +67,18 @@ public class EtyOnline implements Scrape {
 			
 			//linked list and global hashmap? so that load database is in main. Check running loops times
 			Linked<String> listStr = getWordRange(url,new Linked<String>() ,doc,body);//get words and meanings in the particular letter
+			loadDatabase(listStr,(letter+"").toUpperCase());
 			
-			
-			 System.out.println(url);
-			 doc = Jsoup.connect(url.toString()).get();
-			 body = doc.getElementById("dictionary");
+			System.out.println(url);
+			doc = Jsoup.connect(url.toString()).get();
+			body = doc.getElementById("dictionary");
 			 
 			incre++;
 		}
 		
 	}
-	private static void loadDatabase(){
-		
-	}
+	
+
 	private static boolean check(String url,Document doc,Element body){
 		if(body.text().equals("No matching terms found.")){
 			return false;

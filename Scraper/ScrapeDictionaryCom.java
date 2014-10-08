@@ -73,7 +73,6 @@ public class ScrapeDictionaryCom implements Scrape {
 		return null;
 	}
 
-	@Override
 	public void loadDatabase(Linked<String> list) {
 		// TODO Auto-generated method stub
 		
