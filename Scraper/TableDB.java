@@ -16,15 +16,18 @@ public class TableDB {
 		try{
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:"+dbName+".db");
-			System.out.println("Opened db");
+			System.out.println("Opened db: TableDB.java");
 			
 			st = c.createStatement();
+			
+			System.out.println("Execute");
 			st.executeUpdate(sql);
+			System.out.println("Closing");
 			st.close();
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 		}
-		System.out.println("Table created");
+		System.out.println("Table created: " +sql);
 	}
 	
 }

@@ -13,6 +13,15 @@ public class EtyOnline implements Scrape {
 	public EtyOnline(){
 		//do doc and body and url initialization here, do database and table creation here
 		Database.createDB(dbName);
+		StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=0&allowed_in_frame=0");
+		Document doc = null;
+		try {
+			doc = Jsoup.connect(url.toString()).get();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Element body = doc.getElementById("dictionary");
 		
 	}
 	@Override
@@ -23,7 +32,16 @@ public class EtyOnline implements Scrape {
 
 	public static void loadDatabase(Linked<String> list,String tableName) {
 		while(list.getSize()!=0){
-			
+				//System.out.println(list.pop());
+				String definition = list.pop();
+				String word = list.pop();
+				System.out.println("Word: "+word + " Definition: " + definition);
+				String sql = "INSERT INTO "+tableName+" (WORD,ORIGIN) "+"VALUES ('"+word+"', '"+definition+"');";
+				System.out.println(sql);
+				//if(PopulateDB.insert(sql, dbName)==-1){
+					PopulateDB.insert(sql, dbName);
+				//}
+				
 		}
 		//String sql = "INSERT INTO tableName (WORD,ORIGIN)"+"VALUES(word,origin);";
 
@@ -33,10 +51,31 @@ public class EtyOnline implements Scrape {
 		//StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=60&allowed_in_frame=0");
 		StringBuilder url = new StringBuilder("http://www.etymonline.com/index.php?l=a&p=0&allowed_in_frame=0");
 		Document doc = Jsoup.connect(url.toString()).get();
-		Element body = doc.getElementById("dictionary");
-		for(int i = 97;i<=122;i++){
-			TableDB.createTable("CREATE TABLE " + String.valueOf((char)i).toUpperCase() +"(WORD TEXT PRIMARY KEY NOT NULL,"+"ORIGIN TEXT NOT NULL)",dbName);
-			byLetter((char)i);
+		//Element body = doc.getElementById("dictionary");
+		Database.createDB(dbName);
+		
+		//for(int i = 97;i<=122;i++){
+		//EtyOnline ee = new EtyOnline();
+		
+		//int i = 97;
+		//while(i!=122){
+		
+			//ee.runner(i);
+			//EtyOnline e2 = new EtyOnline();
+
+			//e2.runner(i+1);
+
+		//i++;
+		//}
+		
+		for(int i = 116;i<=122;i++){
+					//TableDB.createTable("CREATE TABLE " + String.valueOf((char)i).toUpperCase() +" (WORD text, "+"ORIGIN text);",dbName);
+
+			//TableDB.createTable("CREATE TABLE TEST (WORD TEXT PRIMARY KEY  NOT NULL, "+"ORIGIN TEXT NOT NULL)",dbName);
+			//PopulateDB.insert("INSERT INTO TEST (WORD,ORIGIN) "+"VALUES ('test','testhere');", dbName);
+			
+			runner(i);
+			//byLetter((char)i);
 		}
 		
 		/*
@@ -49,7 +88,18 @@ public class EtyOnline implements Scrape {
 		*/
 		
 	}
+	private static void runner(int i){
+		TableDB.createTable("CREATE TABLE " + String.valueOf((char)i).toUpperCase() +" (WORD text, "+"ORIGIN text);",dbName);
+		try {
+			byLetter((char)i);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+	}
 	private static void byLetter(char letter) throws IOException{
+		
 		Document doc;
 		Element body;
 		int incre = 0;
@@ -66,6 +116,7 @@ public class EtyOnline implements Scrape {
 			url = first + incre + second;
 			
 			//linked list and global hashmap? so that load database is in main. Check running loops times
+			
 			Linked<String> listStr = getWordRange(url,new Linked<String>() ,doc,body);//get words and meanings in the particular letter
 			loadDatabase(listStr,(letter+"").toUpperCase());
 			
