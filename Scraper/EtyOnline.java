@@ -68,7 +68,7 @@ public class EtyOnline implements Scrape {
 		//i++;
 		//}
 		
-		for(int i = 116;i<=122;i++){
+		for(int i = 97;i<=122;i++){
 					//TableDB.createTable("CREATE TABLE " + String.valueOf((char)i).toUpperCase() +" (WORD text, "+"ORIGIN text);",dbName);
 
 			//TableDB.createTable("CREATE TABLE TEST (WORD TEXT PRIMARY KEY  NOT NULL, "+"ORIGIN TEXT NOT NULL)",dbName);
